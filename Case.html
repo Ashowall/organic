@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>ORGANIC — CASE STUDIES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #000000;
+      --card-bg: #080808;
+      --red: #ff202a;
+      --red-bright: #ff202a;
+      --red-glow: rgba(255, 32, 42, 0.45);
+      --text-white: #ffffff;
+      --text-muted: #888888;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      text-transform: uppercase;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      width: 100%;
+      height: auto;
+      background-color: var(--bg);
+      scroll-behavior: smooth;
+      touch-action: pan-y;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-white);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* =========================================================
+       GLOBAL ABSOLUTE HEADER
+       ========================================================= */
+    .site-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 95px;
+      padding: 0 clamp(20px, 4.5vw, 60px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      pointer-events: auto;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: headerFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+    }
+
+    @keyframes headerFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .brand-logo-img {
+      height: clamp(38px, 4.2vw, 56px);
+      width: auto;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      transition: transform 0.3s ease, opacity 0.4s var(--ease);
+    }
+
+    .brand-logo-img:hover {
+      transform: scale(1.03);
+    }
+
+    .brand-logo-img.logo-hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
+    }
+
+    nav {
+      margin-left: auto;
+      margin-right: clamp(20px, 3vw, 45px);
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 2.2vw, 36px);
+      list-style: none;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: clamp(11.5px, 0.85vw, 13.5px);
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      position: relative;
+      transition: color 0.25s ease;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      right: -6px;
+      width: 4px;
+      height: 4px;
+      background-color: var(--red);
+      border-radius: 50%;
+    }
+
+    .nav-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-white);
+      font-size: clamp(11.5px, 0.85vw, 13.5px);
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-bottom: 1.5px solid var(--text-white);
+      padding-bottom: 2px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .nav-action-btn:hover {
+      color: var(--red-bright);
+      border-color: var(--red-bright);
+    }
+
+    .nav-action-btn svg {
+      width: 11px;
+      height: 11px;
+      fill: currentColor;
+    }
+
+    .mobile-hamburger-btn { display: none; }
+    .mobile-dropdown-menu { display: none; }
+
+    /* --- OPTIMIZED GPU-ACCELERATED PARTICLES & GLOW --- */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      transform: translateZ(0);
+      will-change: transform;
+      animation: bgFadeIn 1.2s ease-out forwards;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      top: 15%;
+      right: 5%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 32, 42, 0.08) 0%, rgba(255, 32, 42, 0.02) 45%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      transform: translateZ(0);
+      animation: pulseGlow 8s ease-in-out infinite alternate, bgFadeIn 1.4s ease-out forwards;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: translateZ(0) scale(0.95); opacity: 0.7; }
+      100% { transform: translateZ(0) scale(1.1); opacity: 1; }
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+      transform: translateZ(0);
+      animation: bgFadeIn 1s ease-out forwards;
+    }
+
+    @keyframes pageEntranceFade {
+      0% {
+        opacity: 0;
+        transform: translateY(12px) translateZ(0);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+      }
+    }
+
+    @keyframes bgFadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    /* --- MAIN PAGE WRAPPER --- */
+    .cs-wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1440px;
+      padding: 120px clamp(20px, 4.5vw, 60px) 40px clamp(20px, 4.5vw, 60px);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      animation: pageEntranceFade 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+      will-change: opacity, transform;
+    }
+
+    /* --- 1. TOP HEADER SECTION --- */
+    .cs-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 28px;
+    }
+
+    .cs-header-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cs-eyebrow {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .cs-eyebrow-text {
+      color: var(--red);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+
+    .cs-headline {
+      font-size: clamp(2.2rem, 4.3vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+    }
+
+    .cs-head-white { color: #ffffff; }
+    .cs-head-red { color: var(--red); }
+
+    .cs-header-right {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      padding-top: 14px;
+    }
+
+    .cs-header-desc {
+      color: #9c9c9c;
+      font-size: 11px;
+      line-height: 1.6;
+      font-weight: 500;
+      max-width: 260px;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    .cs-view-all-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-decoration: none;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    .cs-view-all-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 1px solid var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      will-change: transform;
+      box-shadow: 0 0 16px rgba(255, 32, 42, 0.4);
+      flex-shrink: 0;
+    }
+
+    .cs-view-all-btn:hover .cs-view-all-circle {
+      transform: scale(1.1) translateZ(0);
+      box-shadow: 0 0 24px rgba(255, 32, 42, 0.7);
+    }
+
+    .cs-view-all-circle svg {
+      width: 14px;
+      height: 14px;
+      stroke: #ffffff;
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      display: block;
+    }
+
+    /* --- 2. MAIN COMPOSITION --- */
+    .cs-body-composition {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .cs-nav-column {
+      width: 80px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-top: 4px;
+    }
+
+    .cs-nav-item {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      opacity: 0.32;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+      text-transform: uppercase;
+    }
+
+    .cs-nav-item:hover {
+      opacity: 0.75;
+      transform: translateX(2px) translateZ(0);
+    }
+
+    .cs-nav-item.active {
+      opacity: 1;
+      transform: translateX(0) translateZ(0);
+    }
+
+    .cs-nav-num {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+    }
+
+    .cs-nav-item.active .cs-nav-num { color: var(--red); }
+
+    .cs-nav-line {
+      width: 34px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+      margin-top: 8px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cs-nav-item.active .cs-nav-line {
+      background: var(--red);
+      width: 6px;
+      height: 14px;
+      margin-top: 4px;
+      border-radius: 1px;
+    }
+
+    .cs-main-content-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-width: 0;
+      width: 100%;
+    }
+
+    /* --- 3. LARGE FEATURED CARD --- */
+    .cs-featured-card {
+      width: 100%;
+      height: 380px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      background: var(--card-bg);
+      display: grid;
+      grid-template-columns: 35% 65%;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+
+    .cs-feat-left {
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .cs-feat-cat, .cs-feat-title, .cs-feat-desc {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      will-change: opacity, transform;
+      text-transform: uppercase;
+    }
+
+    .cs-feat-cat {
+      color: var(--red);
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .cs-feat-title {
+      font-size: clamp(1.4rem, 2vw, 2rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .cs-feat-desc {
+      color: #9c9c9c;
+      font-size: 10.5px;
+      line-height: 1.6;
+      font-weight: 500;
+      margin-bottom: 28px;
+    }
+
+    .cs-view-case-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: #ffffff;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .cs-view-case-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 32, 42, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+      will-change: transform;
+    }
+
+    .cs-view-case-link:hover .cs-view-case-circle {
+      background: var(--red);
+      border-color: var(--red);
+      transform: scale(1.1) translateZ(0);
+    }
+
+    .cs-view-case-circle svg {
+      width: 11px;
+      height: 11px;
+      stroke: var(--red);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: stroke 0.3s ease;
+    }
+
+    .cs-view-case-link:hover .cs-view-case-circle svg { stroke: #ffffff; }
+
+    .cs-feat-right {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .cs-feat-img-bg {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 0.35s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateZ(0);
+      will-change: opacity, transform;
+    }
+
+    .cs-featured-card:hover .cs-feat-img-bg {
+      transform: scale(1.03) translateZ(0);
+    }
+
+    .cs-feat-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%);
+    }
+
+    /* --- 4. BOTTOM CAROUSEL WRAPPER --- */
+    .cs-carousel-wrapper {
+      position: relative;
+      width: 100%;
+      padding: 0 4px;
+      overflow: visible;
+    }
+
+    .cs-carousel-inner-viewport {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 14px;
+    }
+
+    .cs-bottom-track {
+      display: flex;
+      gap: 22px;
+      width: 100%;
+      transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    .cs-card-box {
+      flex: 0 0 calc((100% - 88px) / 5);
+      min-width: 0;
+      height: 215px;
+      border-radius: 14px;
+      background: #0d0d0d;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+      transform: translateZ(0);
+      will-change: transform, border-color, box-shadow;
+    }
+
+    .cs-card-box:hover {
+      transform: translateY(-6px) translateZ(0);
+      border-color: var(--red);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 32, 42, 0.35);
+    }
+
+    .cs-card-box.active-card {
+      border: 1px solid var(--red) !important;
+      box-shadow: 0 0 18px rgba(255, 32, 42, 0.4);
+    }
+
+    .cs-card-bg-layer {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s ease;
+      will-change: transform;
+    }
+
+    .cs-card-box:hover .cs-card-bg-layer {
+      transform: scale(1.06) translateZ(0);
+    }
+
+    .cs-card-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.1) 100%);
+      z-index: 1;
+    }
+
+    .cs-card-number {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+      z-index: 2;
+    }
+
+    .cs-card-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cs-card-cat {
+      color: var(--red);
+      font-size: 7.5px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .cs-card-title {
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1.2;
+      color: #ffffff;
+      margin: 0 0 6px 0;
+    }
+
+    .cs-card-desc {
+      font-size: 8.5px;
+      color: #a0a0a0;
+      line-height: 1.4;
+      font-weight: 500;
+      margin: 0 0 10px 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .cs-card-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 32, 42, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.5);
+      transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+      will-change: transform;
+    }
+
+    .cs-card-box:hover .cs-card-btn {
+      background: var(--red);
+      border-color: var(--red);
+      transform: scale(1.1) translateZ(0);
+    }
+
+    .cs-card-btn svg {
+      width: 10px;
+      height: 10px;
+      stroke: var(--red);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: stroke 0.3s ease;
+    }
+
+    .cs-card-box:hover .cs-card-btn svg {
+      stroke: #ffffff;
+    }
+
+    .cs-arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%) translateZ(0);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1.5px solid var(--red);
+      background: #09090b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 25;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 16px var(--red-glow);
+      transition: opacity 0.25s ease, background-color 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+      will-change: transform, opacity;
+    }
+
+    .cs-arrow-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--red);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: stroke 0.25s ease;
+    }
+
+    .cs-arrow-btn:hover {
+      background-color: var(--red);
+      border-color: var(--red);
+      box-shadow: 0 10px 28px rgba(255, 32, 42, 0.65);
+      transform: translateY(-50%) scale(1.1) translateZ(0);
+    }
+
+    .cs-arrow-btn:hover svg { stroke: #ffffff; }
+
+    .cs-arrow-prev { left: -24px; opacity: 0; pointer-events: none; }
+    .cs-arrow-next { right: -24px; opacity: 1; pointer-events: auto; }
+    .cs-arrow-btn.visible { opacity: 1; pointer-events: auto; }
+    .cs-arrow-btn.hidden { opacity: 0; pointer-events: none; }
+
+    /* --- LIGHTBOX MODAL --- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      width: min(760px, 94vw);
+      background: #0d0d0d;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 32, 42, 0.3);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transform: scale(0.96) translateZ(0);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
+    .modal-overlay.active .modal-box {
+      transform: scale(1) translateZ(0);
+    }
+
+    .modal-img-container {
+      width: 100%;
+      height: 360px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .modal-play-btn {
+      position: absolute;
+      right: 35px;
+      bottom: 35px;
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      background-color: #ff202a;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      border: none;
+      outline: none;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 32, 42, 0.6);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+      will-change: transform, box-shadow;
+    }
+
+    .modal-play-btn.show-btn { display: flex !important; }
+    .modal-play-btn:hover {
+      transform: scale(1.08) translateZ(0);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.9), 0 0 45px rgba(255, 32, 42, 0.85);
+    }
+
+    .modal-play-btn svg {
+      width: 44px;
+      height: 44px;
+      fill: #ffffff;
+      margin-left: 6px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 20;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .modal-content {
+      padding: 24px 30px;
+      position: relative;
+    }
+
+    .modal-tag {
+      color: var(--red);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 10px;
+      line-height: 1.15;
+    }
+
+    .modal-desc {
+      font-size: 0.85rem;
+      color: #a0a0a0;
+      line-height: 1.5;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .modal-subfooter {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .modal-corner-num {
+      position: absolute;
+      bottom: 24px;
+      right: 30px;
+      color: var(--red);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    /* Video Lightbox */
+    .video-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 150;
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .video-modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .video-container-box {
+      width: min(1000px, 95vw);
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(255, 32, 42, 0.35);
+      box-shadow: 0 0 50px rgba(255, 32, 42, 0.3);
+      transform: scale(0.96) translateZ(0);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
+    .video-modal-overlay.active .video-container-box {
+      transform: scale(1) translateZ(0);
+    }
+
+    .video-frame-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-frame-container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      object-fit: cover;
+    }
+
+    .video-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 20;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .video-close-btn:hover {
+      background: var(--red);
+      border-color: var(--red);
+      transform: scale(1.08) translateZ(0);
+    }
+
+    /* =========================================================
+       FOOTER (SITE READER)
+       ========================================================= */
+    .site-footer-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px clamp(24px, 6vw, 90px) 40px;
+      box-sizing: border-box;
+      gap: 20px;
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid rgba(255, 32, 42, 0.15);
+      margin-top: 60px;
+      background: #000000;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .footer-logo-img {
+      height: clamp(38px, 3.8vw, 54px);
+      width: auto;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      margin-left: -12px;
+    }
+
+    .footer-location {
+      color: #a1a1aa;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+    }
+
+    .footer-location-icon {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      flex-shrink: 0;
+    }
+
+    .footer-left-divider {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .footer-social-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-social-link {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-social-link svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      flex-shrink: 0;
+    }
+
+    .footer-social-link:hover {
+      color: var(--red-bright);
+    }
+
+    .footer-social-divider {
+      display: none;
+    }
+
+    .footer-copyright-divider {
+      display: none;
+    }
+
+    .footer-copyright {
+      color: #71717a;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    /* --- RESPONSIVE TOUCH & MOBILE --- */
+    @media (max-width: 1100px) {
+      .cs-wrapper { padding: 110px 30px 40px 30px; }
+      .cs-featured-card { grid-template-columns: 40% 60%; }
+      .cs-bottom-track { gap: 18px; }
+      .cs-card-box { flex: 0 0 calc((100% - 36px) / 3); }
+      .cs-arrow-prev { left: -14px; }
+      .cs-arrow-next { right: -14px; }
+    }
+
+    @media (max-width: 900px) {
+      .nav-menu { display: none; }
+      .nav-action-btn { display: none; }
+
+      .site-header { 
+        height: 75px; 
+        padding: 0 16px; 
+        background: transparent; 
+      }
+      
+      .brand-logo-img { height: 42px !important; }
+
+      .brand-logo-img.logo-hidden {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.95);
+      }
+
+      .mobile-hamburger-btn {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 22px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 150;
+        padding: 0;
+      }
+
+      .mobile-hamburger-btn span {
+        display: block;
+        width: 100%;
+        height: 2.5px;
+        background-color: #ffffff;
+        border-radius: 2px;
+        transition: transform 0.4s var(--ease), opacity 0.4s var(--ease), background-color 0.3s;
+      }
+
+      .mobile-hamburger-btn.is-open span:nth-child(1) { transform: translateY(9.75px) rotate(45deg); background-color: var(--red-bright); }
+      .mobile-hamburger-btn.is-open span:nth-child(2) { opacity: 0; }
+      .mobile-hamburger-btn.is-open span:nth-child(3) { transform: translateY(-9.75px) rotate(-45deg); background-color: var(--red-bright); }
+
+      .mobile-dropdown-menu {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 75vw;
+        height: 100vh;
+        background: rgba(8, 8, 10, 0.97);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-left: 1px solid rgba(255, 32, 42, 0.25);
+        padding: 110px 32px 40px 32px;
+        gap: 24px;
+        z-index: 120;
+        pointer-events: none;
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+        transition: transform 0.5s var(--ease), opacity 0.4s ease;
+      }
+
+      .mobile-dropdown-menu.menu-open { pointer-events: auto; opacity: 1; transform: translate3d(0, 0, 0); }
+      .mobile-dropdown-menu a { color: #ffffff; font-size: 17px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; transition: color 0.25s ease, transform 0.25s ease; display: inline-block; }
+      .mobile-dropdown-menu a:hover { color: var(--red-bright); transform: translateX(6px); }
+
+      .site-footer-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+        padding: 40px 16px;
+      }
+      .footer-left {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .footer-logo-img { margin-left: 0; }
+      .footer-left-divider { display: none; }
+      .footer-right {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .cs-wrapper {
+        padding: 95px 16px 60px 16px;
+      }
+      .cs-header {
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .cs-headline {
+        font-size: 2.2rem;
+      }
+      .cs-header-right {
+        padding-top: 0;
+        gap: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .cs-body-composition {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .cs-nav-column {
+        width: 100%;
+        flex-direction: row;
+        gap: 14px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .cs-nav-column::-webkit-scrollbar { display: none; }
+      .cs-nav-item {
+        flex-shrink: 0;
+      }
+      .cs-featured-card {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .cs-feat-left {
+        padding: 24px 20px;
+      }
+      .cs-feat-title {
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+      }
+      .cs-feat-desc {
+        font-size: 9.5px;
+        margin-bottom: 20px;
+      }
+      .cs-feat-right {
+        height: 220px;
+      }
+      .cs-carousel-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-x;
+        scrollbar-width: none;
+        padding: 0;
+      }
+      .cs-carousel-inner-viewport {
+        overflow: visible;
+      }
+      .cs-carousel-wrapper::-webkit-scrollbar { display: none; }
+      .cs-bottom-track {
+        display: flex;
+        width: max-content;
+        gap: 14px;
+        padding-right: 20px;
+        transform: none !important;
+      }
+      .cs-card-box {
+        flex: 0 0 78vw;
+        height: 220px;
+        scroll-snap-align: start;
+        padding: 16px;
+      }
+      .cs-arrow-btn {
+        display: none !important;
+      }
+      .modal-img-container {
+        height: 240px;
+      }
+      .modal-play-btn {
+        width: 75px;
+        height: 75px;
+        right: 18px;
+        bottom: 18px;
+      }
+      .modal-play-btn svg {
+        width: 24px;
+        height: 24px;
+      }
+      .modal-content {
+        padding: 18px 20px;
+      }
+      .modal-title {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <a href="index.html" style="text-decoration: none;">
+      <img 
+        src="https://res.cloudinary.com/g1bbkwbi/image/upload/v1787657063/f5c4ff7a-bd35-4ea1-a157-45d783cb5466.png" 
+        alt="ORGANIC PR" 
+        class="brand-logo-img"
+        id="brandLogo"
+      >
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">HOME</a></li>
+        <li><a href="about.html" class="nav-link">ABOUT</a></li>
+        <li><a href="Case.html" class="nav-link active">CASE STUDIES</a></li>
+        <li><a href="career.html" class="nav-link">CAREERS</a></li>
+        <li><a href="Contact.html" class="nav-link">CONTACT</a></li>
+      </ul>
+    </nav>
+
+    <a href="Contact.html" class="nav-action-btn">
+      LET’S TALK
+      <svg viewBox="0 0 24 24">
+        <path d="M5 19L19 5M19 5H9M19 5V15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+
+    <!-- Mobile Hamburger Button -->
+    <button class="mobile-hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Mobile Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Mobile Slide-In Dropdown Menu -->
+  <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+    <a href="index.html" class="mob-nav-link">HOME</a>
+    <a href="about.html" class="mob-nav-link">ABOUT</a>
+    <a href="Case.html" class="mob-nav-link">CASE STUDIES</a>
+    <a href="career.html" class="mob-nav-link">CAREERS</a>
+    <a href="Contact.html" class="mob-nav-link">CONTACT</a>
+  </div>
+
+  <canvas id="bg-canvas"></canvas>
+  <div class="ambient-glow"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- MODAL POPUP LIGHTBOX -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <div class="modal-img-container" id="modalImg">
+        <div class="modal-close" id="modalClose">&times;</div>
+        <button class="modal-play-btn" id="modalPlayBtn" aria-label="Play Case Study Video">
+          <svg viewBox="0 0 24 24">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-content">
+        <div class="modal-tag" id="modalTag">MEDIA & PR</div>
+        <h2 class="modal-title" id="modalTitle">ALJOMAIH GAC GS4 LAUNCH</h2>
+        <p class="modal-desc" id="modalDesc">ORGANIC LED MEDIA & PR FOR THE GAC GS4 LAUNCH AND THE GAC SHOWROOM RELAUNCH, MANAGING MEDIA RELATIONS, PRESS COVERAGE, CONTENT AMPLIFICATION, AND EVENT PROGRAMMING—INCLUDING MC COORDINATION AND SPEECH DEVELOPMENT.</p>
+        <span class="modal-subfooter">PROTOTYPE PROJECT OVERVIEW</span>
+        <span class="modal-corner-num" id="modalNum">01</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMBEDDED LIGHTBOX VIDEO POPUP -->
+  <div class="video-modal-overlay" id="videoOverlay">
+    <div class="video-container-box">
+      <div class="video-close-btn" id="videoCloseBtn">&times;</div>
+      <div class="video-frame-container" id="videoFrameContainer"></div>
+    </div>
+  </div>
+
+  <div class="cs-wrapper">
+
+    <header class="cs-header">
+      <div class="cs-header-left">
+        <div class="cs-eyebrow">
+          <span class="cs-eyebrow-text">CASE STUDIES</span>
+        </div>
+        <h1 class="cs-headline">
+          <span class="cs-head-white">WORK THAT</span><br>
+          <span class="cs-head-red">MOVES PEOPLE.</span>
+        </h1>
+      </div>
+
+      <div class="cs-header-right">
+        <p class="cs-header-desc">
+          WE CREATE EXPERIENCES THAT CONNECT<br>BRANDS WITH PEOPLE IN POWERFUL WAYS.
+        </p>
+        <a class="cs-view-all-btn" id="viewAllProjectsBtn" href="#csBottomTrack">
+          <div class="cs-view-all-circle">
+            <svg viewBox="0 0 24 24">
+              <path d="M7 17L17 7M7 7h10v10"></path>
+            </svg>
+          </div>
+          <span>VIEW ALL PROJECTS</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="cs-body-composition">
+      
+      <!-- Left Vertical Navigation: 01 to 07 -->
+      <nav class="cs-nav-column" id="csNavColumn">
+        <div class="cs-nav-item active" data-index="0">
+          <span class="cs-nav-num">01</span>
+          <div class="cs-nav-line"></div>
+        </div>
+        <div class="cs-nav-item" data-index="1">
+          <span class="cs-nav-num">02</span>
+          <div class="cs-nav-line"></div>
+        </div>
+        <div class="cs-nav-item" data-index="2">
+          <span class="cs-nav-num">03</span>
+          <div class="cs-nav-line"></div>
+        </div>
+        <div class="cs-nav-item" data-index="3">
+          <span class="cs-nav-num">04</span>
+          <div class="cs-nav-line"></div>
+        </div>
+        <div class="cs-nav-item" data-index="4">
+          <span class="cs-nav-num">05</span>
+          <div class="cs-nav-line"></div>
+        </div>
+        <div class="cs-nav-item" data-index="5">
+          <span class="cs-nav-num">06</span>
+          <div class="cs-nav-line"></div>
+        </div>
+        <div class="cs-nav-item" data-index="6">
+          <span class="cs-nav-num">07</span>
+          <div class="cs-nav-line"></div>
+        </div>
+      </nav>
+
+      <div class="cs-main-content-column">
+        
+        <div class="cs-featured-card">
+          <div class="cs-feat-left">
+            <span class="cs-feat-cat" id="featCat">MEDIA & PR</span>
+            <h2 class="cs-feat-title" id="featTitle">ALJOMAIH GAC<br>GS4 LAUNCH</h2>
+            <p class="cs-feat-desc" id="featDesc">
+              ORGANIC LED MEDIA & PR FOR THE GAC GS4 LAUNCH AND THE GAC SHOWROOM RELAUNCH, MANAGING MEDIA RELATIONS, PRESS COVERAGE, CONTENT AMPLIFICATION, AND EVENT PROGRAMMING—INCLUDING MC COORDINATION AND SPEECH DEVELOPMENT.
+            </p>
+            <a class="cs-view-case-link" href="#" id="openFeaturedModal">
+              <div class="cs-view-case-circle">
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 17L17 7M7 7h10v10"></path>
+                </svg>
+              </div>
+              <span>VIEW CASE STUDY</span>
+            </a>
+          </div>
+
+          <div class="cs-feat-right" id="mainHeroImgClick">
+            <div class="cs-feat-img-bg" id="featImgBg" style="background-image: url('https://res.cloudinary.com/g1bbkwbi/image/upload/v1787231150/ChatGPT_Image_Aug_20_2026_04_04_55_PM.png');"></div>
+            <div class="cs-feat-overlay"></div>
+          </div>
+        </div>
+
+        <div class="cs-carousel-wrapper" id="carouselWrapper">
+          
+          <button class="cs-arrow-btn cs-arrow-prev" id="csPrevBtn" aria-label="Previous Project">
+            <svg viewBox="0 0 24 24" fill="none">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+
+          <button class="cs-arrow-btn cs-arrow-next visible" id="csNextBtn" aria-label="Next Project">
+            <svg viewBox="0 0 24 24" fill="none">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+
+          <div class="cs-carousel-inner-viewport">
+            <div class="cs-bottom-track" id="csBottomTrack">
+
+              <!-- Card 01 -->
+              <div class="cs-card-box active-card" data-index="0">
+                <div class="cs-card-bg-layer" style="background-image: url('https://res.cloudinary.com/g1bbkwbi/image/upload/v1787231150/ChatGPT_Image_Aug_20_2026_04_04_55_PM.png');"></div>
+                <div class="cs-card-gradient"></div>
+                <span class="cs-card-number">01</span>
+                <div class="cs-card-content">
+                  <span class="cs-card-cat">MEDIA & PR</span>
+                  <h3 class="cs-card-title">ALJOMAIH GAC GS4</h3>
+                  <p class="cs-card-desc">MEDIA RELATIONS, PRESS COVERAGE, AND SHOWROOM RELAUNCH EVENT PROGRAMMING.</p>
+                  <div class="cs-card-btn">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 17L17 7M7 7h10v10"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 02 -->
+              <div class="cs-card-box" data-index="1">
+                <div class="cs-card-bg-layer" style="background-image: url('https://res.cloudinary.com/g1bbkwbi/image/upload/v1787232037/ChatGPT_Image_Aug_20_2026_04_20_26_PM.png');"></div>
+                <div class="cs-card-gradient"></div>
+                <span class="cs-card-number">02</span>
+                <div class="cs-card-content">
+                  <span class="cs-card-cat">MEDIA & PR</span>
+                  <h3 class="cs-card-title">CHERY | KSA LAUNCH</h3>
+                  <p class="cs-card-desc">GRAND LAUNCH OF CHERY COMMERCIAL VEHICLES IN THE SAUDI MARKET.</p>
+                  <div class="cs-card-btn">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 17L17 7M7 7h10v10"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 03 -->
+              <div class="cs-card-box" data-index="2">
+                <div class="cs-card-bg-layer" style="background-image: url('https://res.cloudinary.com/g1bbkwbi/image/upload/v1787230046/ChatGPT_Image_Aug_20_2026_03_46_35_PM.png');"></div>
+                <div class="cs-card-gradient"></div>
+                <span class="cs-card-number">03</span>
+                <div class="cs-card-content">
+                  <span class="cs-card-cat">EVENT EXECUTION</span>
+                  <h3 class="cs-card-title">CORE LIFE | PADEL</h3>
+                  <p class="cs-card-desc">EVENT EXECUTION BRINGING TOGETHER SPORTS ENTHUSIASTS AND THE COMMUNITY.</p>
+                  <div class="cs-card-btn">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 17L17 7M7 7h10v10"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 04 -->
+              <div class="cs-card-box" data-index="3">
+                <div class="cs-card-bg-layer" style="background-image: url('https://res.cloudinary.com/g1bbkwbi/image/upload/v1787228992/ChatGPT_Image_Aug_20_2026_03_28_47_PM.png');"></div>
+                <div class="cs-card-gradient"></div>
+                <span class="cs-card-number">04</span>
+                <div class="cs-card-content">
+                  <span class="cs-card-cat">PR & COMMUNICATIONS</span>
+                  <h3 class="cs-card-title">JTC SIGNING CEREMONY</h3>
+                  <p class="cs-card-desc">PRESS CONFERENCE AND PR FOR THE JEDDAH TRANSPORTATION COMPANY PARTNERSHIP.</p>
+                  <div class="cs-card-btn">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 17L17 7M7 7h10v10"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 05 -->
+              <div class="cs-card-box" data-index="4">
+                <div class="cs-card-bg-layer" style="background-image: url('https://res.cloudinary.com/g1bbkwbi/image/upload/v1787232849/ChatGPT_Image_Aug_20_2026_04_33_51_PM.png');"></div>
+                <div class="cs-card-gradient"></div>
+                <span class="cs-card-number">05</span>
+                <div class="cs-card-content">
+                  <span class="cs-card-cat">MEDIA & PR</span>
+                  <h3 class="cs-card-title">GAC | RIYADH MOTOR</h3>
+                  <p class="cs-card-desc">MEDIA & PR FOR GAC AT THE RIYADH MOTOR SHOW INCLUDING INFLUENCER ENGAGEMENT.</p>
+                  <div class="cs-card-btn">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 17L17 7M7 7h10v10"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 06 -->
+              <div class="cs-card-box" data-index="5">
+                <div class="cs-card-bg-layer" style="background-image: url('https://res.cloudinary.com/g1bbkwbi/image/upload/v1787252475/ChatGPT_Image_Aug_20_2026_09_58_02_PM.png');"></div>
+                <div class="cs-card-gradient"></div>
+                <span class="cs-card-number">06</span>
+                <div class="cs-card-content">
+                  <span class="cs-card-cat">TEST DRIVE ACTIVATION</span>
+                  <h3 class="cs-card-title">DEEPAL TEST DRIVE</h3>
+                  <p class="cs-card-desc">TEST DRIVE ACTIVATION AT ZAHRAN BUSINESS CENTER INTRODUCING REEV TECH.</p>
+                  <div class="cs-card-btn">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 17L17 7M7 7h10v10"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 07 -->
+              <div class="cs-card-box" data-index="6">
+                <div class="cs-card-bg-layer" style="background-image: url('https://res.cloudinary.com/g1bbkwbi/image/upload/v1787263580/ChatGPT_Image_Aug_21_2026_01_05_04_AM.png');"></div>
+                <div class="cs-card-gradient"></div>
+                <span class="cs-card-number">07</span>
+                <div class="cs-card-content">
+                  <span class="cs-card-cat">SOCIAL MEDIA MANAGEMENT</span>
+                  <h3 class="cs-card-title">ZAHRAN BUSINESS CENTER</h3>
+                  <p class="cs-card-desc">SOCIAL MEDIA MANAGEMENT, MEDIA BUYING, AND COMMUNITY MODERATION.</p>
+                  <div class="cs-card-btn">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 17L17 7M7 7h10v10"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- SITE FOOTER (SITE READER) -->
+  <footer class="site-footer-row">
+    <div class="footer-left">
+      <img 
+        src="https://res.cloudinary.com/g1bbkwbi/image/upload/v1787657063/f5c4ff7a-bd35-4ea1-a157-45d783cb5466.png" 
+        alt="ORGANIC" 
+        class="footer-logo-img"
+      >
+      <div class="footer-left-divider"></div>
+      <span class="footer-location">
+        <svg class="footer-location-icon" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"></path>
+          <circle cx="12" cy="9" r="2.5"></circle>
+        </svg>
+        JEDDAH, SAUDI ARABIA
+      </span>
+    </div>
+
+    <div class="footer-right">
+      <div class="footer-social-row">
+        <a href="https://www.instagram.com/organicc.sa/" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          INSTAGRAM
+        </a>
+        <div class="footer-social-divider"></div>
+        <a href="https://www.tiktok.com/@organicpr.sa" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+          <svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5v3a8 8 0 0 1-5-1.8V16a7 7 0 1 1-7-7c.7 0 1.4.1 2 .3V12z"></path></svg>
+          TIKTOK
+        </a>
+        <div class="footer-social-divider"></div>
+        <a href="https://www.linkedin.com/company/organic-pr-events/posts/?feedView=all" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+          LINKEDIN
+        </a>
+      </div>
+      <div class="footer-copyright-divider"></div>
+      <span class="footer-copyright">© 2026 ORGANIC</span>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      const caseStudies = [
+        {
+          num: "01",
+          cat: "MEDIA & PR",
+          head: "ALJOMAIH GAC<br>GS4 LAUNCH",
+          plainTitle: "ALJOMAIH GAC GS4 LAUNCH",
+          desc: "ORGANIC LED MEDIA & PR FOR THE GAC GS4 LAUNCH AND THE GAC SHOWROOM RELAUNCH, MANAGING MEDIA RELATIONS, PRESS COVERAGE, CONTENT AMPLIFICATION, AND EVENT PROGRAMMING—INCLUDING MC COORDINATION AND SPEECH DEVELOPMENT.",
+          img: "https://res.cloudinary.com/g1bbkwbi/image/upload/v1787231150/ChatGPT_Image_Aug_20_2026_04_04_55_PM.png",
+          video: ""
+        },
+        {
+          num: "02",
+          cat: "MEDIA & PR",
+          head: "CHERY | KSA<br>BRAND LAUNCH 2026",
+          plainTitle: "CHERY | KSA BRAND LAUNCH 2026",
+          desc: "ORGANIC LED THE MEDIA & PR DIVISION FOR THE GRAND LAUNCH OF CHERY COMMERCIAL VEHICLES IN THE SAUDI MARKET THROUGH THEIR OFFICIAL DEALER, AL MAJDOUIE MOTORS, MANAGING MEDIA AND INFLUENCER ENGAGEMENT, MEDIA LOGISTICS, MEDIA TEST DRIVES, DEVELOPING C LEVEL AND MC SPEECHES, PRESS RELEASE DISTRIBUTION, AND THE FINAL CAMPAIGN REPORT AND CHERY OFFICIAL SOCIAL MEDIA ACCOUNTS.",
+          img: "https://res.cloudinary.com/g1bbkwbi/image/upload/v1787232037/ChatGPT_Image_Aug_20_2026_04_20_26_PM.png",
+          video: ""
+        },
+        {
+          num: "03",
+          cat: "EVENT EXECUTION",
+          head: "CORE LIFE | PADEL<br>TOURNAMENT",
+          plainTitle: "CORE LIFE | PADEL TOURNAMENT",
+          desc: "ORGANIC MANAGED THE FULL EVENT EXECUTION OF THE CORE LIFE PADEL TOURNAMENT. THE EVENT BROUGHT TOGETHER SPORTS ENTHUSIASTS AND THE COMMUNITY IN AN ENGAGING AND COMPETITIVE ENVIRONMENT, REINFORCING BRAND PRESENCE THROUGH A WELL-ORGANIZED SPORTING EXPERIENCE.",
+          img: "https://res.cloudinary.com/g1bbkwbi/image/upload/v1787230046/ChatGPT_Image_Aug_20_2026_03_46_35_PM.png",
+          video: ""
+        },
+        {
+          num: "04",
+          cat: "PR & COMMUNICATIONS",
+          head: "JTC SIGNING<br>CEREMONY WITH MEDIA GO",
+          plainTitle: "JTC SIGNING CEREMONY WITH MEDIA GO",
+          desc: "ORGANIC HANDLED THE PRESS CONFERENCE, MEDIA RELATIONS, AND PR FOR THE SIGNING CEREMONY BETWEEN JEDDAH TRANSPORTATION COMPANY AND MEDIA GO, ENSURING STRONG MEDIA COVERAGE AND VISIBILITY FOR THE PARTNERSHIP.",
+          img: "https://res.cloudinary.com/g1bbkwbi/image/upload/v1787228992/ChatGPT_Image_Aug_20_2026_03_28_47_PM.png",
+          video: ""
+        },
+        {
+          num: "05",
+          cat: "MEDIA & PR",
+          head: "GAC | RIYADH<br>MOTOR SHOW 2025",
+          plainTitle: "GAC | RIYADH MOTOR SHOW 2025",
+          desc: "ORGANIC LED THE MEDIA & PR EFFORTS FOR GAC AT THE RIYADH MOTOR SHOW, MANAGING MEDIA AND INFLUENCER ENGAGEMENT, DEVELOPING SPEECHES, ISSUING PRESS RELEASES, AND DELIVERING THE FINAL CAMPAIGN REPORT.",
+          img: "https://res.cloudinary.com/g1bbkwbi/image/upload/v1787232849/ChatGPT_Image_Aug_20_2026_04_33_51_PM.png",
+          video: ""
+        },
+        {
+          num: "06",
+          cat: "TEST DRIVE ACTIVATION",
+          head: "DEEPAL TEST DRIVE<br>ZAHRAN BUSINESS CENTER",
+          plainTitle: "DEEPAL TEST DRIVE ZAHRAN BUSINESS CENTER",
+          desc: "WE EXECUTED A TEST DRIVE ACTIVATION AT ZAHRAN BUSINESS CENTER TO PROMOTE FUTURE MOBILITY AND INTRODUCE DEEPAL'S REEV TECHNOLOGY THROUGH A CLEAR, HANDS-ON EXPERIENCE DRIVING AWARENESS AND CONSUMER CONFIDENCE.",
+          img: "https://res.cloudinary.com/g1bbkwbi/image/upload/v1787252475/ChatGPT_Image_Aug_20_2026_09_58_02_PM.png",
+          video: "https://res.cloudinary.com/g1bbkwbi/video/upload/ac_aac,vc_auto,q_auto/v1787260330/promo_Deepal_2_1.mp4"
+        },
+        {
+          num: "07",
+          cat: "SOCIAL MEDIA MANAGEMENT",
+          head: "ZAHRAN BUSINESS CENTER<br>DIGITAL PRESENCE",
+          plainTitle: "ZAHRAN BUSINESS CENTER",
+          desc: "ORGANIC MANAGED THE DIGITAL PRESENCE OF ZAHRAN BUSINESS CENTER, HANDLING SOCIAL MEDIA MANAGEMENT, MEDIA BUYING, AND COMMUNITY MODERATION TO DRIVE ENGAGEMENT AND VISIBILITY.",
+          img: "https://res.cloudinary.com/g1bbkwbi/image/upload/v1787263580/ChatGPT_Image_Aug_21_2026_01_05_04_AM.png",
+          video: ""
+        }
+      ];
+
+      let activeIndex = 0;
+      let carouselOffset = 0;
+      const maxOffset = 2;
+
+      const featCat = document.getElementById('featCat');
+      const featTitle = document.getElementById('featTitle');
+      const featDesc = document.getElementById('featDesc');
+      const featImgBg = document.getElementById('featImgBg');
+      const navItems = document.querySelectorAll('.cs-nav-item');
+      const cardBoxes = document.querySelectorAll('.cs-card-box');
+      const mainHeroImgClick = document.getElementById('mainHeroImgClick');
+      const openFeaturedModal = document.getElementById('openFeaturedModal');
+      const viewAllProjectsBtn = document.getElementById('viewAllProjectsBtn');
+
+      const carouselWrapper = document.getElementById('carouselWrapper');
+      const track = document.getElementById('csBottomTrack');
+      const prevBtn = document.getElementById('csPrevBtn');
+      const nextBtn = document.getElementById('csNextBtn');
+
+      const modalOverlay = document.getElementById('modalOverlay');
+      const modalClose = document.getElementById('modalClose');
+      const modalImg = document.getElementById('modalImg');
+      const modalTag = document.getElementById('modalTag');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalDesc = document.getElementById('modalDesc');
+      const modalNum = document.getElementById('modalNum');
+      const modalPlayBtn = document.getElementById('modalPlayBtn');
+
+      const videoOverlay = document.getElementById('videoOverlay');
+      const videoCloseBtn = document.getElementById('videoCloseBtn');
+      const videoFrameContainer = document.getElementById('videoFrameContainer');
+
+      // Hamburger menu toggle
+      const menuBtn = document.getElementById('mobileMenuBtn');
+      const dropdownMenu = document.getElementById('mobileDropdownMenu');
+      const brandLogo = document.getElementById('brandLogo');
+      const mobLinks = document.querySelectorAll('.mob-nav-link');
+
+      if (menuBtn && dropdownMenu) {
+        menuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = menuBtn.classList.toggle('is-open');
+          dropdownMenu.classList.toggle('menu-open', isOpen);
+          if (brandLogo) {
+            brandLogo.classList.toggle('logo-hidden', isOpen);
+          }
+        });
+
+        mobLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            menuBtn.classList.remove('is-open');
+            dropdownMenu.classList.remove('menu-open');
+            if (brandLogo) {
+              brandLogo.classList.remove('logo-hidden');
+            }
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!dropdownMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+            menuBtn.classList.remove('is-open');
+            dropdownMenu.classList.remove('menu-open');
+            if (brandLogo) {
+              brandLogo.classList.remove('logo-hidden');
+            }
+          }
+        });
+      }
+
+      // VIEW ALL PROJECTS: Smoothly scroll down to bottom cards
+      if (viewAllProjectsBtn) {
+        viewAllProjectsBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (carouselWrapper) {
+            carouselWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        });
+      }
+
+      function switchProject(index) {
+        if (index < 0 || index >= caseStudies.length) return;
+        activeIndex = index;
+        const p = caseStudies[index];
+
+        featCat.style.opacity = '0';
+        featTitle.style.opacity = '0';
+        featDesc.style.opacity = '0';
+        featImgBg.style.opacity = '0.3';
+
+        setTimeout(() => {
+          featCat.textContent = p.cat;
+          featTitle.innerHTML = p.head;
+          featDesc.textContent = p.desc;
+          featImgBg.style.backgroundImage = `url('${p.img}')`;
+
+          featCat.style.opacity = '1';
+          featTitle.style.opacity = '1';
+          featDesc.style.opacity = '1';
+          featImgBg.style.opacity = '1';
+        }, 120);
+
+        navItems.forEach((item, i) => item.classList.toggle('active', i === index));
+        cardBoxes.forEach((card, i) => card.classList.toggle('active-card', i === index));
+
+        if (window.innerWidth > 768) {
+          if (index >= carouselOffset + 5) {
+            slideCarousel(index - 4);
+          } else if (index < carouselOffset) {
+            slideCarousel(index);
+          }
+        } else {
+          const activeCard = cardBoxes[index];
+          if (activeCard && carouselWrapper) {
+            const leftPos = activeCard.offsetLeft - 16;
+            carouselWrapper.scrollTo({ left: leftPos, behavior: 'smooth' });
+          }
+        }
+      }
+
+      function slideCarousel(offset) {
+        if (window.innerWidth <= 768) return;
+        carouselOffset = Math.max(0, Math.min(offset, maxOffset));
+        
+        track.style.transform = `translateX(calc(-${carouselOffset * 20}% - ${carouselOffset * 4.4}px)) translateZ(0)`;
+        
+        prevBtn.classList.toggle('visible', carouselOffset > 0);
+        prevBtn.classList.toggle('hidden', carouselOffset === 0);
+        nextBtn.classList.toggle('visible', carouselOffset < maxOffset);
+        nextBtn.classList.toggle('hidden', carouselOffset === maxOffset);
+      }
+
+      nextBtn.addEventListener('click', () => slideCarousel(carouselOffset + 1));
+      prevBtn.addEventListener('click', () => slideCarousel(carouselOffset - 1));
+
+      function openModal(index) {
+        const p = caseStudies[index];
+        modalImg.style.backgroundImage = `url('${p.img}')`;
+        modalTag.textContent = p.cat;
+        modalTitle.textContent = p.plainTitle;
+        modalDesc.textContent = p.desc;
+        modalNum.textContent = p.num;
+
+        if (index === 5) {
+          modalPlayBtn.classList.add('show-btn');
+        } else {
+          modalPlayBtn.classList.remove('show-btn');
+        }
+
+        modalOverlay.classList.add('active');
+      }
+
+      function closeModal() {
+        modalOverlay.classList.remove('active');
+      }
+
+      modalPlayBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const p = caseStudies[activeIndex];
+        if (p.video && p.video.trim() !== "") {
+          videoFrameContainer.innerHTML = '';
+          
+          const videoEl = document.createElement('video');
+          videoEl.controls = true;
+          videoEl.playsInline = true;
+          videoEl.preload = 'auto';
+          videoEl.muted = false;
+          videoEl.volume = 1.0;
+          
+          const sourceEl = document.createElement('source');
+          sourceEl.src = p.video;
+          sourceEl.type = 'video/mp4';
+          videoEl.appendChild(sourceEl);
+
+          videoFrameContainer.appendChild(videoEl);
+          videoOverlay.classList.add('active');
+
+          videoEl.load();
+          videoEl.play().catch(() => {
+            videoEl.muted = true;
+            videoEl.play();
+          });
+        }
+      });
+
+      function closeVideoModal() {
+        const videoEl = videoFrameContainer.querySelector('video');
+        if (videoEl) {
+          videoEl.pause();
+          videoEl.removeAttribute('src');
+          videoEl.load();
+        }
+        videoFrameContainer.innerHTML = '';
+        videoOverlay.classList.remove('active');
+      }
+
+      videoCloseBtn.addEventListener('click', closeVideoModal);
+      videoOverlay.addEventListener('click', (e) => {
+        if (e.target === videoOverlay) closeVideoModal();
+      });
+
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const idx = parseInt(item.getAttribute('data-index'), 10);
+          switchProject(idx);
+        });
+      });
+
+      let isDragging = false;
+      let startX = 0;
+
+      cardBoxes.forEach(card => {
+        card.addEventListener('touchstart', (e) => {
+          isDragging = false;
+          startX = e.touches[0].clientX;
+        }, { passive: true });
+
+        card.addEventListener('touchmove', (e) => {
+          if (Math.abs(e.touches[0].clientX - startX) > 10) {
+            isDragging = true;
+          }
+        }, { passive: true });
+
+        card.addEventListener('touchend', (e) => {
+          if (!isDragging) {
+            const idx = parseInt(card.getAttribute('data-index'), 10);
+            switchProject(idx);
+          }
+        });
+
+        card.addEventListener('click', () => {
+          const idx = parseInt(card.getAttribute('data-index'), 10);
+          switchProject(idx);
+        });
+      });
+
+      mainHeroImgClick.addEventListener('click', () => openModal(activeIndex));
+      openFeaturedModal.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal(activeIndex);
+      });
+
+      modalClose.addEventListener('click', closeModal);
+      modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeModal();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeVideoModal();
+          closeModal();
+        }
+      });
+
+      const canvas = document.getElementById('bg-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d', { alpha: true });
+        let w, h;
+        function resize() {
+          w = canvas.width = window.innerWidth;
+          h = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize, { passive: true });
+        resize();
+
+        const particles = Array.from({ length: 30 }, () => ({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 1.3 + 0.4,
+          vx: (Math.random() - 0.5) * 0.18,
+          vy: (Math.random() - 0.5) * 0.18,
+          a: Math.random() * 0.45 + 0.15,
+          isRed: Math.random() > 0.4
+        }));
+
+        function render() {
+          ctx.clearRect(0, 0, w, h);
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0) p.x = w;
+            else if (p.x > w) p.x = 0;
+            if (p.y < 0) p.y = h;
+            else if (p.y > h) p.y = 0;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, 6.283);
+            ctx.fillStyle = p.isRed ? `rgba(255, 32, 42, ${p.a})` : `rgba(255, 255, 255, ${p.a * 0.6})`;
+            ctx.fill();
+          }
+          requestAnimationFrame(render);
+        }
+        render();
+      }
+
+      // ----------------------------------------------------
+      // INTEGRATE KEYBOARD NAVIGATION (UP/DOWN/LEFT/RIGHT)
+      // ----------------------------------------------------
+      document.addEventListener('keydown', (event) => {
+        if (modalOverlay.classList.contains('active') || videoOverlay.classList.contains('active')) return;
+
+        let nextIndex = activeIndex;
+
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+          nextIndex = (activeIndex + 1) % caseStudies.length;
+        } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+          nextIndex = (activeIndex - 1 + caseStudies.length) % caseStudies.length;
+        } else {
+          return;
+        }
+
+        switchProject(nextIndex);
+
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown' || 
+            event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+            event.preventDefault();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
